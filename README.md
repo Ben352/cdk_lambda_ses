@@ -1,9 +1,7 @@
-# Welcome to your CDK TypeScript project
+# AWS CDK with lambda and SES
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
+A simple program to better understand the AWS cdk. This programm will create a lambda function that is invoked by a scheduler (AWS EventBridge) and then sends an email using AWS SES.
+Deploy using * `cdk deploy`  and then delete by using * `cdk destroy` 
 ## Useful commands
 
 * `npm run build`   compile typescript to js
