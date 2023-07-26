@@ -11,13 +11,12 @@ export class LambdaSesStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const lambdaEventRule = new events.Rule(this, 'lambdaScheduler', {
-      schedule: cdk.aws_events.Schedule.rate(cdk.Duration.minutes(2)),
-    });
 
 
-    // Lambda function that sends the email
-    // upload the local env file to the lambda environment
+
+
+    // Create the lambda function that sends the email
+    // Load the local env file to the cdk env
   const walletMonitor = new lambda.Function(this, 'lambdaEmail', {
       runtime: lambda.Runtime.NODEJS_16_X,   
       code: lambda.Code.fromAsset('lambda'),  
@@ -29,8 +28,7 @@ export class LambdaSesStack extends cdk.Stack {
       }              
     });
 
-    // Only give the lambda the function to send an email from a specific email address
-    // and also only from a specific region
+    // Only give the lambda the permission to send an email from a specific email address and region
     walletMonitor.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ["ses:SendEmail"],
@@ -39,7 +37,14 @@ export class LambdaSesStack extends cdk.Stack {
         }:identity/${SES_EMAIL_FROM}`],
       })
     );
-    // Add the scheduler to the lambda function
+
+    // Create the Scheduler, In this case every 2 minutes the scheduler will invoke the lambda
+      const lambdaEventRule = new events.Rule(this, 'lambdaScheduler', {
+          schedule: cdk.aws_events.Schedule.rate(cdk.Duration.minutes(2)),
+        });
+
+
+    // Attach the scheduler to the lambda function
     lambdaEventRule.addTarget(new targets.LambdaFunction(walletMonitor))
     
   }
