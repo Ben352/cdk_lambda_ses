@@ -1,7 +1,7 @@
 # AWS CDK with lambda and SES
 
 A simple program to better understand the AWS cdk. This programm will create a lambda function that is invoked by a scheduler (AWS EventBridge) and then sends an email using AWS SES.
-Deploy using * `cdk deploy`  and then delete by using * `cdk destroy` 
+Deploy using `cdk deploy`  and then delete by using `cdk destroy` 
 ## Useful commands
 
 * `npm run build`   compile typescript to js
